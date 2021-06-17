@@ -37,6 +37,31 @@ function createMap(earthquakesLayer) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(map);
+  // creating leaflet control object (legend)
+  var legend = L.control({
+    position: "bottomright"
+  });
+
+  // adding all the details for the legend
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "legend-control");
+    var grades = [10, 25, 40, 55, 70, 85];
+    var colors = [
+      "#00ff80",
+      "#00ffbf",
+      "#00ffff",
+      "#00bfff",
+      "#0080ff",
+      "#0040ff"
+    ];
+    // Looping through intervals to generate a label for each interval.
+    for (var i = 0; i < grades.length; i++) {
+      div.innerHTML += "<i style='background: " + colors[i] + "'></i> " + grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+    }
+    return div;
+  };
+ 
+  legend.addTo(map);
 }
 
 function generateColor(depth){
